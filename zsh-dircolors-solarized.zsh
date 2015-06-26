@@ -2,6 +2,24 @@
 _ZSH_DIRCOLORS_SOLARIZED_DIR=${ZSH_DIRCOLORS_SOLARIZED_DIR:-${${0:A}:h}/dircolors-solarized}
 _CONFIG_FILE=$HOME/.zsh-dircolors.config
 
+# Gets the current platform
+function detectplatform {
+    platform='unknown'
+    unamestr=`uname`
+    if [[ "$unamestr" == 'Linux' ]]; then
+       platform='linux'
+    elif [[ "$unamestr" == 'Darwin' ]]; then
+       platform='darwin'
+    fi
+}
+
+detectplatform
+
+# Alias for when using OSX
+if [[ $platform == 'darwin' ]] && which gdircolors &> /dev/null ; then
+  alias 'dircolors'='gdircolors'
+fi
+
 function lssolarized ()
 {
     for i in ${_ZSH_DIRCOLORS_SOLARIZED_DIR}/dircolors.*
